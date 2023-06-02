@@ -7,114 +7,97 @@
 
 import glob
 import string
+from typing import List, Union
 
-def get_comment ():
+def get_user_text () -> str:
     text= input("Please write a comment: ").lower()
     # if not text:
     #     print("No comment to measure")
     #     quit()
     return text
 
-def open_files(file_pattern):
+def cleanup_user_input(text:str) -> list:
+    PUNCTUATION= string.punctuation
+    cleaned_words= []
+    content= text.replace("<br />", " ").lower()
+    words= content.split()
+    for word in words:
+        word= word.strip(PUNCTUATION)     
+        cleaned_words.append(word)
+    return cleaned_words
+
+def open_files(file_pattern: str) -> List[str]:
     files = glob.glob(file_pattern)
-    contents = []
+    list_comments = []
     for file in files:
         with open(file) as stream:
             content = stream.read()
-            contents.append(content)
-    return contents
+            list_comments.append(content)
+    return list_comments
 
-def clean_text(text):
-    content= text.replace("<br />", " ").lower().strip(PUNCTUATION)
-    comments= content.split()     
-        list_positives.append(comments)
-    return list_positives
-# print(list_positives)
-     
-list_negatives= []
-for file in files_negative:
-    with open(file) as stream:
-        content= stream.read()
-        content= content.replace("<br />", " ").lower().strip(PUNCTUATION)
-        comments= content.split()
-        list_negatives.append(comments)
-    return list_negatives
-# print(list_negatives)
-
-counter_positive= 0
-counter_negative= 0
-
-all_words_sentiment= []
-words_not_found= []
-
-def delete_punctuation(text):
-    words= text.split()
-    for word in words:
-        word= word.strip(PUNCTUATION)
-    return word
-    
-def conuter_words(word, list_???):    
-        for comment in list_positives:
-            if word in comment:
-                counter_positive+= 1
-        positive= counter_positive
-        counter_positive = 0   
-        for comment in list_negatives:
-            if word in comment:
-                counter_negative+= 1
-        negative= counter_negative
-        counter_negative = 0 
-    return counter ????????/ # jak połączyć pozyt i negat 
-
-    # print("Word:", word, "Found in positive comments:", positive, "Found in negative comments:", negative)     
-    
-# FILENAME_POSITIVE = "/Users/ilo/Desktop/PYTHON/do cwiczenia/pozytywne/*"
-# FILENAME_NEGATIVE= "/Users/ilo/Desktop/PYTHON/do cwiczenia/negatywne/*"
-
-FILENAME_POSITIVE= "Praktyczny_Python_materialy-2022-08-23/M03/data/aclImdb/train/pos/*"
-FILENAME_NEGATIVE= "Praktyczny_Python_materialy-2022-08-23/M03/data/aclImdb/train/neg/*"
-PUNCTUATION= string.punctuation
-
-files_positive= glob.glob(FILENAME_POSITIVE)
-files_negative= glob.glob(FILENAME_NEGATIVE)
-
-    all_= positive + negative
+def count_word_occurrences(word: str, comments: List[str]) -> int:
+    counter = 0
+    for comment in comments:
+        if word in comment:
+            counter += 1
+    return counter
+      
+def calculate_word_sentiment(positive_count: int, negative_count: int) -> Union[float, None]:
+    all_ = positive_count + negative_count
 
     if all_ > 0:
-        word_sentiment= (positive - negative)/ all_
-        all_words_sentiment.append(word_sentiment)
-        print( word, "sentiment:", word_sentiment)  
+        word_sentiment = (positive_count - negative_count) / all_
     else:
-        words_not_found.append(word)
+        word_sentiment = None
+    return word_sentiment
 
-if len(all_words_sentiment) == 0:
-        print("Not enough data to measure your comment")
-else:
-    text_sentiment= sum(all_words_sentiment) / len(all_words_sentiment)
-    if text_sentiment > 0:
+def calculate_comment_sentiment(words_sentiment: List[float]) -> float:
+    comment_sentiment = sum(words_sentiment) / len(words_sentiment)
+    return comment_sentiment
+
+def display_sentiment(comment_sentiment: float, words_not_found: List[str]):
+    if comment_sentiment > 0:
         print("")
         print("This comment is positive")
-        print("It's sentiment:", text_sentiment)
+        print("It's sentiment:", comment_sentiment)
     else:
         print("")
         print("This comment is negative")
-        print("It's sentiment:", text_sentiment)
+        print("It's sentiment:", comment_sentiment)
     
     if len(words_not_found) > 0:
         print("")
         print("[WARNING] Some words cannot be measured:", " ".join(words_not_found))
 
-
-def main(TBD):
+def main() -> None:
+    FILENAME_POSITIVE = "Praktyczny_Python/M03/data/aclImdb/train/pos/*"
+    FILENAME_NEGATIVE = "Praktyczny_Python/M03/data/aclImdb/train/neg/*"
     # 1. najpierw pobranie tekstu od uzytkownika
-        get_text_from_user()
+    user_text = get_user_text()
     # 2. sprzatanie tekstu od uzytkownika
-        cleanup_user_input()
-    # 3. zbuduj baze wiedzy na podstawie pozytywnych i negatywnych
-        slurp_database()
-    # 4. dla kazdego slowa z danych uzytkownika policz wystapienia w bazie wiedzy (dla pozytywnych i negatywnych oddzielnie)
-    # 5. policz sentyment
-    # 6. wyswietl uytkownikowi wynik
+    cleaned_user_text = cleanup_user_input(user_text)
+     # 3. zbuduj baze wiedzy na podstawie pozytywnych i negatywnych
+    positive_comments = open_files(FILENAME_POSITIVE)
+    negative_comments = open_files(FILENAME_NEGATIVE)
 
-if __name__ == "__main__":
+    # 4. dla kazdego slowa z danych uzytkownika policz wystapienia w bazie wiedzy (dla pozytywnych i negatywnych oddzielnie)
+
+    words_sentiment = []
+    words_not_found = []
+    for word in cleaned_user_text:
+        positive_count = count_word_occurrences(word, positive_comments)
+        negative_count = count_word_occurrences(word, negative_comments)
+        # 5. policz sentyment kadego słowa
+        word_sentiment = calculate_word_sentiment(positive_count, negative_count)
+        # 6. policz sentyment całego komentarza
+        if word_sentiment != None:
+            words_sentiment.append(word_sentiment) 
+        else:
+            words_not_found.append(word)
+
+    comment_sentiment = calculate_comment_sentiment(words_sentiment)
+    # 7. wyświetl uzytkownikowi wynik
+    display_sentiment(comment_sentiment, words_not_found)
+
+if __name__ == '__main__':
     main()
