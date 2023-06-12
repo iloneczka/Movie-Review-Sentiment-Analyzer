@@ -1,15 +1,10 @@
-### 🔴 Ćwiczenie
 
-# Zerknij na rozwiązanie ćwiczenia M04L08. Znajduje się tam trochę powtórzonego kodu.
-# 1. Użyj funkcji, aby uniknąć duplikacji kodu.
-# 2. Popraw kod tak, aby miał funkcję main().
-# 3. Czy widzisz jakieś bloki kodu zaczynające się od komentarza podsumowującego, co robi dany blok? Jeśli tak, to jak możesz zwiększyć czytelność kodu poprzez wprowadzenie nowych funkcji?
 
 import glob
 import string
 from typing import List, Union
 
-def get_user_text () -> str:
+def get_user_text() -> str:
     text= input("Please write a comment: ").lower()
     # if not text:
     #     print("No comment to measure")
