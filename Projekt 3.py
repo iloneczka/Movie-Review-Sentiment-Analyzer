@@ -36,7 +36,7 @@ def get_user_text() -> str:
         SystemExit: If no comment is entered, the program is terminated.
 
     """
-    text= input("Please write a comment: ")
+    text = input("Please write a comment: ")
     if not text:
         print("No comment to measure")
         quit()
