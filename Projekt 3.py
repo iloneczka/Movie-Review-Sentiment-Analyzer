@@ -53,12 +53,12 @@ def cleanup_user_input(text:str) -> list:
         list: A list of cleaned words.
 
     """
-    PUNCTUATION= string.punctuation
-    cleaned_words= []
-    content= text.replace("<br />", " ").lower()
-    words= content.split()
+    PUNCTUATION = string.punctuation
+    cleaned_words = []
+    content = text.replace("<br />", " ").lower()
+    words = content.split()
     for word in words:
-        word= word.strip(PUNCTUATION)     
+        word = word.strip(PUNCTUATION)     
         cleaned_words.append(word)
     return cleaned_words
 
