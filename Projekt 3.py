@@ -3,22 +3,6 @@ Sentiment Analysis of Movie Reviews
 
 This script helps the Stanford AI Lab team analyze a dataset consisting of 50,000 movie reviews, allowing them to automatically determine the sentiment of new comments and online statements. The goal is to identify the most positive and negative expressions among millions of neutral comments, enabling the team to highlight the most positive ones and respond to the most negative ones before they reach a wider audience.
 
-The script performs the following steps:
-
-1. All files are located in the directory "M03/data/aclImdb/train." The "pos" subdirectory contains positive comments, which are rated at least 7/10. The "neg" subdirectory contains negative comments, rated 6/10, 5/10, and below. Each review is stored as a separate file.
-
-2. The reviews may contain HTML fragments, such as "<br />" indicating line breaks. Replace these fragments with spaces.
-
-3. Load all positive and negative reviews into two separate variables. It is easier to represent each review as a list of words instead of a string. Therefore, each variable will be a list of lists.
-
-4. Prompt the user to enter a comment for which they want to calculate the sentiment. Split this comment into words.
-
-5. Calculate the sentiment of each word in the comment using the formula (positive - negative) / all_, where "positive" is the number of positive reviews containing the word, "negative" is the number of negative reviews containing the word, and "all_" is the total number of reviews containing the word. For example, if a word appears in 5 positive and 5 negative reviews, its sentiment is (5 - 5) / 10 = 0.0. If a word appears in 9 positive and 1 negative review, its sentiment is (9 - 1) / 10 = +0.8. If a word appears in 90 positive and 10 negative reviews, its sentiment is (90 - 10) / 100 = +0.8, as before. Therefore, the sentiment value always falls within the range of -1.0 to +1.0.
-
-6. The sentiment of the entire comment is the arithmetic mean of the sentiments of all the words. Therefore, sum up the sentiments of each word and divide the sum by the total number of words. This way, the sentiment of the entire comment will also fall within the range of -1.0 to +1.0.
-
-7. The entire comment is considered positive if its sentiment is > 0 and negative if it is < 0.
-
 """
 
 import glob
