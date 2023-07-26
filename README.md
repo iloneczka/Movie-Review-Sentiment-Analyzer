@@ -45,7 +45,7 @@ To run the project locally, follow these steps:
 python3 movie_review_sentiment_analyzer.py.py
 ```
 
-## Testing for Development
+## Testing
 To ensure the correctness of the `movie_review_sentiment_analyzer.py` module, we have created a test suite in `test_movie_review_sentiment_analyzer.py` using pytest.
 
 These tests will help ensure that the sentiment analysis functions, such as `cleanup_user_input`, `calculate_word_sentiment`, and `calculate_comment_sentiment`, are working as expected. The test cases cover various scenarios, including positive, negative, and neutral sentiments, as well as cases where some words cannot be measured.
