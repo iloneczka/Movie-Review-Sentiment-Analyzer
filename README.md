@@ -46,11 +46,23 @@ python3 movie_review_sentiment_analyzer.py.py
 ```
 
 ## Testing for Development
-To test the script for development purposes, follow these steps:
-1. Ensure you have Python installed.
-2. Run the script.
-3. The script will prompt you to enter a comment for sentiment analysis.
-4. After providing the comment, the script will calculate its sentiment.
+To ensure the correctness of the `movie_review_sentiment_analyzer.py` module, we have created a test suite in `test_movie_review_sentiment_analyzer.py` using pytest.
+
+These tests will help ensure that the sentiment analysis functions, such as `cleanup_user_input`, `calculate_word_sentiment`, and `calculate_comment_sentiment`, are working as expected. The test cases cover various scenarios, including positive, negative, and neutral sentiments, as well as cases where some words cannot be measured.
+
+### Running Tests
+To run the tests, follow these steps:
+
+1. Install pytest if you haven't already, by:
+``` 
+pip3 install pytest
+```
+2. Navigate to the project directory.
+
+3. Run the tests:
+```
+pytest test_movie_review_sentiment_analyzer.py
+```
 
 ## Solutions
 The script provides a solution for analyzing sentiments of movie reviews, allowing for quick identification of positive and negative expressions.
