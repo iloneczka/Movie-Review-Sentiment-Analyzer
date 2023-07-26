@@ -3,7 +3,7 @@ from movie_review_sentiment_analyzer import cleanup_user_input, calculate_word_s
 
 # Test cleanup_user_input function
 def test_cleanup_user_input():
-    text = "Hello, this is a test! <br />"
+    text = "Hello!!! This is a test! <br />"
     cleaned_words = cleanup_user_input(text)
     assert cleaned_words == ["hello", "this", "is", "a", "test"]
 

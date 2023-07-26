@@ -26,7 +26,7 @@ def get_user_text() -> str:
         quit()
     return text
 
-def cleanup_user_input(text:str) -> list:
+def cleanup_user_input(text: str) -> List[str]:
     """
     Cleans the given text by removing punctuation and converting it to lowercase.
 
@@ -34,15 +34,15 @@ def cleanup_user_input(text:str) -> list:
         text (str): The input text to be cleaned.
 
     Returns:
-        list: A list of cleaned words.
+        List[str]: A list of cleaned words.
 
     """
     PUNCTUATION = string.punctuation
     cleaned_words = []
-    content = text.replace("<br />", " ").lower()
+    content = text.replace("<br />", " ").replace("<br/>", " ").lower()
     words = content.split()
     for word in words:
-        word = word.strip(PUNCTUATION)     
+        word = word.strip(PUNCTUATION)
         cleaned_words.append(word)
     return cleaned_words
 
@@ -51,7 +51,7 @@ def open_files(file_pattern: str) -> List[str]:
     Opens files matching the given file pattern and returns a list of their contents.
 
     Arguments:
-        file_pattern (str)
+        file_pattern (str): The pattern to match the file names.
 
     Returns:
         List[str]: A list containing the contents of the matched files.
@@ -82,12 +82,12 @@ def count_word_occurrences(word: str, comments: List[str]) -> int:
         if word in comment:
             counter += 1
     return counter
-      
+
 def calculate_word_sentiment(positive_count: int, negative_count: int) -> Union[float, None]:
     """
     Calculates the sentiment of a word based on the counts of positive and negative occurrences.
 
-    Argmentss:
+    Arguments:
         positive_count (int): The count of positive occurrences of the word.
         negative_count (int): The count of negative occurrences of the word.
 
@@ -100,21 +100,24 @@ def calculate_word_sentiment(positive_count: int, negative_count: int) -> Union[
     if all_ > 0:
         word_sentiment = (positive_count - negative_count) / all_
     else:
-        word_sentiment = None
+        word_sentiment = 0
     return word_sentiment
 
-def calculate_comment_sentiment(words_sentiment: List[float]) -> float:
+def calculate_comment_sentiment(word_sentiment: List[float]) -> float:
     """
     Calculates the sentiment of a comment based on the sentiments of its words.
 
     Args:
-        words_sentiment (List[float]): The list of word sentiments.
+        word_sentiment (List[float]): The list of word sentiments.
 
     Returns:
         float: The calculated sentiment of the comment.
 
     """
-    comment_sentiment = sum(words_sentiment) / len(words_sentiment)
+    if len(word_sentiment) != 0:
+        comment_sentiment = sum(word_sentiment) / len(word_sentiment)
+    else:
+        comment_sentiment = None
     return comment_sentiment
 
 def display_sentiment(comment_sentiment: float, words_not_found: List[str]):
@@ -126,15 +129,22 @@ def display_sentiment(comment_sentiment: float, words_not_found: List[str]):
         words_not_found (List[str]): The list of words that could not be measured.
 
     """
-    if comment_sentiment > 0:
+    if comment_sentiment == None:
+        print("")
+        print("Unable to calculate sentiment! No data on queried comment.")
+    elif comment_sentiment > 0:
         print("")
         print("This comment is positive")
         print("It's sentiment:", comment_sentiment)
+    elif comment_sentiment == 0:
+        print("")
+        print("This comment is neutral")
+        print("It's sentiment:", comment_sentiment) 
     else:
         print("")
         print("This comment is negative")
         print("It's sentiment:", comment_sentiment)
-    
+
     if len(words_not_found) > 0:
         print("")
         print("[WARNING] Some words cannot be measured:", " ".join(words_not_found))
@@ -144,8 +154,8 @@ def main() -> None:
     The main function that runs the sentiment analysis program.
 
     """
-    FILENAME_POSITIVE = "Praktyczny_Python/M03/data/aclImdb/train/pos/*"
-    FILENAME_NEGATIVE = "Praktyczny_Python/M03/data/aclImdb/train/neg/*"
+    FILENAME_POSITIVE = "sample_data/positive/*"
+    FILENAME_NEGATIVE = "sample_data/negative/*"
     # 1. Prompt the user to enter a comment
     user_text = get_user_text()
     # 2. Clean up the user's input
@@ -155,20 +165,19 @@ def main() -> None:
     negative_comments = open_files(FILENAME_NEGATIVE)
 
     # 4. Count word occurrences in positive and negative comments
-    words_sentiment = []
+    all_words_sentiment = []
     words_not_found = []
     for word in cleaned_user_text:
         positive_count = count_word_occurrences(word, positive_comments)
         negative_count = count_word_occurrences(word, negative_comments)
-        # 5. Calculate sentiment for each word
-        word_sentiment = calculate_word_sentiment(positive_count, negative_count)
-        # 6. Calculate sentiment for the whole comment
-        if word_sentiment is not None:
-            words_sentiment.append(word_sentiment)
-        else:
+        if positive_count == 0 and negative_count == 0:
             words_not_found.append(word)
-
-    comment_sentiment = calculate_comment_sentiment(words_sentiment)
+        else:
+            # 5. Calculate sentiment for each word
+            word_sentiment = calculate_word_sentiment(positive_count, negative_count)
+            all_words_sentiment.append(word_sentiment)
+    
+    comment_sentiment = calculate_comment_sentiment(all_words_sentiment)
     # 7. Display the sentiment to the user
     display_sentiment(comment_sentiment, words_not_found)
 
