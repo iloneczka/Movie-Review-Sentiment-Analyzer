@@ -1,7 +1,7 @@
 """
 Sentiment Analysis of Movie Reviews
 
-This script helps the Stanford AI Lab team analyze a dataset consisting of 50,000 movie reviews, allowing them to automatically determine the sentiment of new comments and online statements. The goal is to identify the most positive and negative expressions among millions of neutral comments, enabling the team to highlight the most positive ones and respond to the most negative ones before they reach a wider audience.
+This script helps to analyze a dataset consisting of 50,000 movie reviews, allowing them to automatically determine the sentiment of new comments and online statements. The goal is to identify the most positive and negative expressions among millions of neutral comments, enabling the team to highlight the most positive ones and respond to the most negative ones before they reach a wider audience.
 
 """
 
