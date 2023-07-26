@@ -10,7 +10,6 @@ This script is designed to perform Sentiment Analysis of movie reviews. It analy
 * [Setup](#setup)
 * [Testing for Development](#testing-for-velopment)
 * [Solutions](#solutions)
-* [Tools and Plugins](#tools-and-plugins)
 * [Future Plans](#future-plans)
 * [Inspirations and Acknowledgments](#inspirations-and-acknowledgments)
 
@@ -68,11 +67,6 @@ pytest test_movie_review_sentiment_analyzer.py
 ## Solutions
 The script provides a solution for analyzing sentiments of movie reviews, allowing for quick identification of positive and negative expressions.
 
-## Tools and Plugins
-The script utilizes the following Python libraries:
-* glob
-* string
-* typing
 
 ## Future Plans
 Currently, the script focuses on analyzing movie review sentiments. In the future, I may extend its functionality to analyze sentiments in different domains, such as product reviews or social media comments.
