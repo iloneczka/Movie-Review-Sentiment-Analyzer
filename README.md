@@ -8,7 +8,7 @@ This script is designed to perform Sentiment Analysis of movie reviews. It analy
 * [Technologies Used](#technologies-used)
 * [Prerequisites](#prerequisites)
 * [Setup](#setup)
-* [Testing for Development](#testing-for-velopment)
+* [Testing](#testing)
 * [Solutions](#solutions)
 * [Future Plans](#future-plans)
 * [Inspirations and Acknowledgments](#inspirations-and-acknowledgments)

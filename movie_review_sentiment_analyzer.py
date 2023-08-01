@@ -100,7 +100,7 @@ def calculate_word_sentiment(positive_count: int, negative_count: int) -> Union[
     if all_ > 0:
         word_sentiment = (positive_count - negative_count) / all_
     else:
-        word_sentiment = 0
+        word_sentiment = None
     return word_sentiment
 
 def calculate_comment_sentiment(word_sentiment: List[float]) -> float:
